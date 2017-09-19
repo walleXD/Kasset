@@ -6,7 +6,11 @@ import reducers from '../reducers'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
-export default (preloadedState = {}, injectMiddleware = null) => {
+export default (
+  preloadedState = {},
+  injectMiddleware = undefined,
+  injectReducer = undefined
+) => {
   const prodMiddlewares = [
     promiseMiddleware
   ]
@@ -21,7 +25,7 @@ export default (preloadedState = {}, injectMiddleware = null) => {
   if (injectMiddleware) middlewares = injectMiddleware(middlewares)
 
   const store = createStore(
-    reducers,
+    reducers(injectReducer),
     preloadedState,
     composeWithDevTools(
       applyMiddleware(...middlewares)

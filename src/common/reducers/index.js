@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
-export default injectReducer => combineReducers({
+import example from './example'
+
+export default (injectReducer = {}) => combineReducers({
   router: routerReducer,
+  example,
   ...injectReducer
 })
+
+export * from './example'

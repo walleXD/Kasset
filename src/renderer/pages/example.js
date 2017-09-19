@@ -1,5 +1,7 @@
 import React from 'react'
 
-const ExamplePage = () => <h1>Example</h1>
+import Example from '../containers/Example'
+
+const ExamplePage = () => <Example />
 
 export default ExamplePage
