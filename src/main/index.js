@@ -1,10 +1,11 @@
 import { app, BrowserWindow } from 'electron'
 import windowStateKeeper from 'electron-window-state'
-import { forwardToRenderer } from 'electron-redux'
+import { replayActionMain } from 'electron-redux'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer'
+import { increment } from '../common/reducers'
 
 import store from './lib/store'
 
@@ -14,7 +15,7 @@ let mainWindow
 let storybookWindow // eslint-disable-line no-unused-vars
 let initialBoot = true
 
-forwardToRenderer(store)
+replayActionMain(store)
 
 const createMainWindow = async () => {
   const mainWindowState = windowStateKeeper({
@@ -89,6 +90,7 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On macOS it is common to re-create a window
   // even after all windows have been closed
+  store.dispatch(increment(1))
   if (mainWindow === null) mainWindow = createMainWindow()
   if (storybookWindow === null) storybookWindow = createStorybookWindow()
 })

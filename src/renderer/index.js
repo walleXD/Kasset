@@ -15,6 +15,8 @@ import history from './lib/history'
 import store from './lib/store'
 import App from './containers/App'
 
+replayActionRenderer(store)
+
 const renderApp = Component => render(
   <AppContainer>
     <ReduxProvider store={store}>
@@ -28,7 +30,6 @@ const renderApp = Component => render(
   document.getElementById('app')
 )
 
-replayActionRenderer(store)
 renderApp(App)
 
 if (module.hot) module.hot.accept('./containers/App', () => renderApp(App))

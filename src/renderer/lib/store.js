@@ -14,10 +14,10 @@ export default initStore(
         require('redux-logger').createLogger()
       )
     }
-    middleware.push(
-      routerMiddleware(history)
-    )
-    middleware.unshift(forwardToMain)
-    return middleware
+    return [
+      forwardToMain,
+      routerMiddleware(history),
+      ...middleware
+    ]
   }
 )

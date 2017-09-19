@@ -1,7 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import promiseMiddleware from 'redux-promise'
-
+import promise from 'redux-promise'
+import thunk from 'redux-thunk'
 import reducers from '../reducers'
 
 const isDev = process.env.NODE_ENV !== 'production'
@@ -12,8 +11,10 @@ export default (
   injectReducer = undefined
 ) => {
   const prodMiddlewares = [
-    promiseMiddleware
+    promise,
+    thunk
   ]
+
   const devMiddlewares = [
     require('redux-immutable-state-invariant').default()
   ]
@@ -23,6 +24,10 @@ export default (
     : prodMiddlewares
 
   if (injectMiddleware) middlewares = injectMiddleware(middlewares)
+
+  const { composeWithDevTools } = process.type !== 'renderer'
+    ? require('remote-redux-devtools')
+    : require('redux-devtools-extension')
 
   const store = createStore(
     reducers(injectReducer),
@@ -41,3 +46,5 @@ export default (
 
   return store
 }
+
+// TODO: Add redux-persist support

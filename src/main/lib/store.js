@@ -1,18 +1,20 @@
-import { triggerAlias, replayActionMain } from 'electron-redux'
+import { forwardToRenderer, triggerAlias } from 'electron-redux'
 import initStore from '../../common/lib/initRedux'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
 export default initStore(
-  undefined,
+  { example: { score: 10 } },
   middleware => {
     if (isDev) {
       middleware.push(
-        require('redux-node-logger').default()
+        require('redux-node-logger')()
       )
     }
-    middleware.push(replayActionMain)
-    middleware.unshift(triggerAlias)
-    return middleware
+    return [
+      triggerAlias,
+      ...middleware,
+      forwardToRenderer
+    ]
   }
 )
