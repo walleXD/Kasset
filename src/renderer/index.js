@@ -4,6 +4,7 @@ import { render } from 'react-dom'
 import { ThemeProvider } from 'styled-components'
 import { Provider as ReduxProvider } from 'react-redux'
 import Router from 'react-router-redux/ConnectedRouter'
+import { replayActionRenderer } from 'electron-redux'
 
 import 'typeface-roboto/index.css'
 import 'mdi/scss/materialdesignicons.scss'
@@ -27,6 +28,7 @@ const renderApp = Component => render(
   document.getElementById('app')
 )
 
+replayActionRenderer(store)
 renderApp(App)
 
 if (module.hot) module.hot.accept('./containers/App', () => renderApp(App))

@@ -1,15 +1,20 @@
 import { app, BrowserWindow } from 'electron'
 import windowStateKeeper from 'electron-window-state'
+import { forwardToRenderer } from 'electron-redux'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer'
+
+import store from './lib/store'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow
 let storybookWindow // eslint-disable-line no-unused-vars
 let initialBoot = true
+
+forwardToRenderer(store)
 
 const createMainWindow = async () => {
   const mainWindowState = windowStateKeeper({
