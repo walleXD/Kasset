@@ -1,16 +1,27 @@
 import { app, BrowserWindow } from 'electron'
 import windowStateKeeper from 'electron-window-state'
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS
+} from 'electron-devtools-installer'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow
 let storybookWindow // eslint-disable-line no-unused-vars
+let initialBoot = true
 
 const createMainWindow = async () => {
   const mainWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800
   })
+
+  if (initialBoot && isDev) {
+    await installExtension([ REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS ])
+    await require('devtron').install()
+    initialBoot = false
+  }
 
   const win = new BrowserWindow({
     x: mainWindowState.x,
