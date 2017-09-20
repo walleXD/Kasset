@@ -3,10 +3,9 @@ import { routerReducer } from 'react-router-redux'
 
 import example from './example'
 
-export default (injectReducer = {}) => combineReducers({
+export default combineReducers({
   router: routerReducer,
-  example,
-  ...injectReducer
+  example
 })
 
 export * from './example'

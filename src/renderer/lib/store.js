@@ -6,7 +6,7 @@ import history from './history'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
-export default initStore(
+const store = initStore(
   getInitialStateRenderer(),
   middleware => {
     if (isDev) {
@@ -21,3 +21,5 @@ export default initStore(
     ]
   }
 )
+
+export default store

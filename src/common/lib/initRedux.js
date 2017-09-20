@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux'
 import promise from 'redux-promise'
 import thunk from 'redux-thunk'
-import reducers from '../reducers'
+import allReducers from '../reducers'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
@@ -25,12 +25,16 @@ export default (
 
   if (injectMiddleware) middlewares = injectMiddleware(middlewares)
 
+  const reducers = injectReducer
+    ? injectReducer(allReducers)
+    : allReducers
+
   const { composeWithDevTools } = process.type !== 'renderer'
     ? require('remote-redux-devtools')
     : require('redux-devtools-extension')
 
   const store = createStore(
-    reducers(injectReducer),
+    reducers,
     preloadedState,
     composeWithDevTools(
       applyMiddleware(...middlewares)

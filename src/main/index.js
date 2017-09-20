@@ -1,11 +1,11 @@
 import { app, BrowserWindow } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 import { replayActionMain } from 'electron-redux'
+import checkURL from 'url-exists-deep'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer'
-import { increment } from '../common/reducers'
 
 import store from './lib/store'
 
@@ -53,7 +53,14 @@ const createMainWindow = async () => {
   return win
 }
 
-const createStorybookWindow = () => {
+const createStorybookWindow = async () => {
+  const url = 'http://localhost:9009'
+
+  try {
+    await checkURL(url)
+  } catch (e) {
+    return null
+  }
   const storybookWindowState = windowStateKeeper({
     defaultWidth: 1000,
     defaultHeight: 800,
@@ -69,8 +76,6 @@ const createStorybookWindow = () => {
   })
 
   storybookWindowState.manage(win)
-
-  const url = 'http://localhost:9009'
 
   win.loadURL(url)
 
@@ -90,7 +95,6 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   // On macOS it is common to re-create a window
   // even after all windows have been closed
-  store.dispatch(increment(1))
   if (mainWindow === null) mainWindow = createMainWindow()
   if (storybookWindow === null) storybookWindow = createStorybookWindow()
 })

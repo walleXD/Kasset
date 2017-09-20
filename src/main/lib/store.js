@@ -3,7 +3,7 @@ import initStore from '../../common/lib/initRedux'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
-export default initStore(
+const store = initStore(
   { example: { score: 10 } },
   middleware => {
     if (isDev) {
@@ -18,3 +18,5 @@ export default initStore(
     ]
   }
 )
+
+export default store

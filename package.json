@@ -66,12 +66,14 @@
     "redux-logger": "^3.0.6",
     "redux-node-logger": "^0.1.0",
     "redux-persist": "^5.0.0-beta.13",
+    "redux-persist-node-storage": "^1.0.2",
     "redux-promise": "^0.5.3",
     "redux-promises": "^1.0.0",
     "redux-thunk": "^2.2.0",
     "remote-redux-devtools": "^0.5.12",
     "styled-components": "^2.1.2",
     "styled-props": "^1.1.1",
-    "typeface-roboto": "^0.0.35"
+    "typeface-roboto": "^0.0.35",
+    "url-exists-deep": "^1.1.0"
   }
 }
