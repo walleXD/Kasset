@@ -6,8 +6,14 @@ import history from './history'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
+const getInitialState = () => {
+  const state = getInitialStateRenderer()
+  delete state._persist
+  return state
+}
+
 const store = initStore(
-  getInitialStateRenderer(),
+  getInitialState(),
   middleware => {
     if (isDev) {
       middleware.push(

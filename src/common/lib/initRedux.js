@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import promise from 'redux-promise'
 import thunk from 'redux-thunk'
 import allReducers from '../reducers'
@@ -27,7 +27,7 @@ export default (
 
   const reducers = injectReducer
     ? injectReducer(allReducers)
-    : allReducers
+    : combineReducers(allReducers)
 
   const { composeWithDevTools } = process.type !== 'renderer'
     ? require('remote-redux-devtools')
