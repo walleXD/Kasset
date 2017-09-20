@@ -1,11 +1,11 @@
 import { createAction, handleActions, combineActions } from 'redux-actions'
 
 export const increment = createAction(
-  '@@example/INCREMENT'
+  'example/INCREMENT'
 )
 
 export const decrement = createAction(
-  '@@example/DECREMENT',
+  'example/DECREMENT',
   i => -i
 )
 
