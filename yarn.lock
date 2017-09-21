@@ -3938,7 +3938,7 @@ flux-standard-action@^0.6.1:
   dependencies:
     lodash.isplainobject "^3.2.0"
 
-flux-standard-action@^1.0.0:
+flux-standard-action@^1.0.0, flux-standard-action@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/flux-standard-action/-/flux-standard-action-1.2.0.tgz#d2d41612dde4cebddd11a76cfead8e84fc69ebdc"
   dependencies:
@@ -4042,6 +4042,12 @@ fs-extra@^4.0.0, fs-extra@^4.0.1:
 fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
+
+fsa-redux-thunk@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/fsa-redux-thunk/-/fsa-redux-thunk-2.3.0.tgz#a907bcb8861f79ae22b336b8fd7438c1ce04e2b4"
+  dependencies:
+    flux-standard-action "^1.2.0"
 
 fsevents@1.1.2, fsevents@^1.0.0:
   version "1.1.2"

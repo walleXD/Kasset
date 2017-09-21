@@ -11,6 +11,12 @@ import installExtension, {
 import store from './lib/store'
 import { setDefaultSettings } from './lib/utils'
 
+/*
+TODO: cleanup boot process
+TODO: Add levelup db & add db init process
+TODO: Add folder indexing to create library
+ */
+
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow

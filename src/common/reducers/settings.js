@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions'
 import { createAliasedAction } from 'electron-redux'
 
-import { getHomeDir } from '../../main/lib/utils'
+import { getHomeDir, createLibararyLocation } from '../../main/lib/utils'
 
 const INITIAL_STATE = {
   homeDir: '',
@@ -26,6 +26,15 @@ export const updateLibraryLocation = createAction(
   'settings/UPDATE_LIBRARY_LOCATION'
 )
 
+export const __createLibraryLocation = createAction(
+  'settings/CREATE_LIBRARY_LOCATION',
+  () => (dispatch, getState) => {
+    const { libraryLocation } = getState().settings
+    createLibararyLocation(libraryLocation)
+    return dispatch(__completedFirstBoot())
+  }
+)
+
 export const __completedFirstBoot = createAction(
   'settings/COMPLETED_FIRST_BOOT'
 )
@@ -38,6 +47,7 @@ export default handleActions({
     ...state, firstLoad: false
   }),
   [updateLibraryLocation] (state) {
+    // TODO: Fix library path will not works on all OSes
     if (state.libraryInHome) {
       return { ...state, libraryLocation: `${state.homeDir}/${state.libraryFolder}` }
     }

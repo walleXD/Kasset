@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import promise from 'redux-promise'
-import thunk from 'redux-thunk'
+import thunk from 'fsa-redux-thunk'
 import allReducers from '../reducers'
 
 const isDev = process.env.NODE_ENV !== 'production'
@@ -50,5 +50,3 @@ export default (
 
   return store
 }
-
-// TODO: Add redux-persist support
