@@ -19,7 +19,8 @@ class ExampleContainer extends PureComponent {
   static propTypes = {
     score: number,
     increment: func,
-    decrement: func
+    decrement: func,
+    setHomeDir: func
   }
 
   render = () => <Example {...this.props} />

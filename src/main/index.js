@@ -2,12 +2,14 @@ import { app, BrowserWindow } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 import { replayActionMain } from 'electron-redux'
 import checkURL from 'url-exists-deep'
+import { persistStore } from 'redux-persist'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer'
 
 import store from './lib/store'
+import { setDefaultSettings } from './lib/utils'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
@@ -15,6 +17,7 @@ let mainWindow
 let storybookWindow // eslint-disable-line no-unused-vars
 let initialBoot = true
 
+persistStore(store)
 replayActionMain(store)
 
 const createMainWindow = async () => {
@@ -49,6 +52,12 @@ const createMainWindow = async () => {
   win.on('closed', () => {
     mainWindow = null
   })
+
+  const isFirstLoad = store.getState().settings.firstLoad
+
+  if (isFirstLoad) {
+    setDefaultSettings(store)
+  }
 
   return win
 }
@@ -100,7 +109,7 @@ app.on('activate', () => {
 })
 
 // Create main BrowserWindow when electron is ready
-app.on('ready', () => {
+app.on('ready', async () => {
   if (isDev) storybookWindow = createStorybookWindow()
   mainWindow = createMainWindow()
 })
