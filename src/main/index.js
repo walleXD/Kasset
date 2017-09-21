@@ -9,10 +9,9 @@ import installExtension, {
 } from 'electron-devtools-installer'
 
 import store from './lib/store'
-import { setDefaultSettings } from './lib/utils'
+import { initBoot } from './lib/utils'
 
 /*
-TODO: cleanup boot process
 TODO: Add levelup db & add db init process
 TODO: Add folder indexing to create library
  */
@@ -20,7 +19,7 @@ TODO: Add folder indexing to create library
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow
-let storybookWindow // eslint-disable-line no-unused-vars
+let storybookWindow
 let initialBoot = true
 
 persistStore(store)
@@ -33,7 +32,10 @@ const createMainWindow = async () => {
   })
 
   if (initialBoot && isDev) {
-    await installExtension([ REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS ])
+    await installExtension([
+      REACT_DEVELOPER_TOOLS,
+      REDUX_DEVTOOLS
+    ])
     await require('devtron').install()
     initialBoot = false
   }
@@ -61,9 +63,7 @@ const createMainWindow = async () => {
 
   const isFirstLoad = store.getState().settings.firstLoad
 
-  if (isFirstLoad) {
-    setDefaultSettings(store)
-  }
+  initBoot(store, isFirstLoad)
 
   return win
 }
