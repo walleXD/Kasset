@@ -10,7 +10,8 @@ export const decrement = createAction(
 )
 
 export default handleActions({
-  [combineActions(increment, decrement)]: (state, { payload }) => ({
-    ...state, score: state.score + payload
-  })
+  [combineActions(increment, decrement)]: (state, { payload }) => {
+    if (state.score) return {...state, score: state.score + payload}
+    else return {...state, score: payload}
+  }
 }, {score: 0})

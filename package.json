@@ -71,6 +71,7 @@
     "redux-node-logger": "^0.1.0",
     "redux-persist": "^5.0.0-beta.13",
     "redux-persist-node-storage": "^1.0.2",
+    "redux-persist-transform-filter": "^0.0.15",
     "redux-promise": "^0.5.3",
     "redux-promises": "^1.0.0",
     "redux-thunk": "^2.2.0",

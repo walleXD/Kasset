@@ -4,6 +4,7 @@ import { combineReducers } from 'redux'
 import { AsyncNodeStorage } from 'redux-persist-node-storage'
 
 import initStore from '../../common/lib/initRedux'
+import { blackListFilters } from './utils'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
@@ -24,7 +25,8 @@ const store = initStore(
   reducers => persistReducer({
     key: 'kasset',
     debug: isDev,
-    storage: new AsyncNodeStorage('/tmp')
+    storage: new AsyncNodeStorage('/tmp'),
+    transforms: [...blackListFilters()]
   },
   combineReducers(reducers))
 )

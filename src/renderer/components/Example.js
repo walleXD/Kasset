@@ -4,7 +4,7 @@ import { number, func } from 'prop-types'
 
 const Example = ({score, increment, decrement}) =>
   <div>
-    <span>{score}</span>
+    <span>{score || 0}</span>
     <br />
     <Button onClick={() => increment(1)}>Add</Button>
     <Button onClick={() => decrement(1)}>Substract</Button>

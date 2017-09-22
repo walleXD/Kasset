@@ -17,6 +17,7 @@ TODO: Create appropriate infrastructure to copy the file to library folder and a
 TODO: Add ability add multiple files
 TODO: Add ability to add folder of mp3s
 TODO: Add ability add folders of mp3s
+TODO: Clean up action creators
  */
 
 const isDev = process.env.NODE_ENV !== 'production'
@@ -34,10 +35,7 @@ const createMainWindow = async () => {
     defaultHeight: 800
   })
 
-  if (initialBoot) {
-    const isFirstLoad = store.getState().settings.firstLoad
-    initBoot(store, isFirstLoad)
-  }
+  if (initialBoot) initBoot(store)
 
   if (initialBoot && isDev) {
     await installExtension([
@@ -115,7 +113,7 @@ app.on('activate', () => {
   // On macOS it is common to re-create a window
   // even after all windows have been closed
   if (mainWindow === null) mainWindow = createMainWindow()
-  if (storybookWindow === null) storybookWindow = createStorybookWindow()
+  if (storybookWindow === null && isDev) storybookWindow = createStorybookWindow()
 })
 
 // Create main BrowserWindow when electron is ready

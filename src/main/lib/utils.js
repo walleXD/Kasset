@@ -1,6 +1,7 @@
 import { app } from 'electron'
 import fs from 'fs'
 import { join } from 'path'
+import { createBlacklistFilter } from 'redux-persist-transform-filter'
 
 import {
   __initFirstBoot,
@@ -13,9 +14,13 @@ export const createLibararyLocation = dir => {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir)
 }
 
-export const initBoot = ({ dispatch }, isFirstLoad) =>
-  isFirstLoad
+export const initBoot = ({ dispatch, getState }) =>
+  getState().settings.firstLoad
     ? dispatch(__initFirstBoot())
     : dispatch(__initBoot())
 
 export const joinPath = paths => join(...paths)
+
+export const blackListFilters = () => [
+  createBlacklistFilter('example', ['score'])
+]
