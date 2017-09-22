@@ -12,7 +12,6 @@ import store from './lib/store'
 import { initBoot } from './lib/utils'
 
 /*
-TODO: Add levelup db & add db init process
 TODO: Add folder indexing to create library
  */
 
