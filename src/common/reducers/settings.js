@@ -92,6 +92,7 @@ export default handleActions({
     return { ...state, libraryLocation: `${state.libraryLocation}/${state.libraryFolder}` }
   },
   [__updateDbLocation] (state) {
+    // TODO: set proper directory handling once ready for use
     return { ...state, dbLocation: '/tmp/db' }
   }
 }, INITIAL_STATE)
