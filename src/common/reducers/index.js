@@ -9,12 +9,15 @@ import { routerReducer } from 'react-router-redux'
 
 import example from './example'
 import settings from './settings'
+import library from './library'
 
 export default {
   router: routerReducer,
   example,
-  settings
+  settings,
+  library
 }
 
 export * from './example'
 export * from './settings'
+export * from './library'

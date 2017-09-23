@@ -12,7 +12,6 @@ import store from './lib/store'
 import { initBoot } from './lib/utils'
 
 /*
-TODO: Add ability to add audiobook file to library
 TODO: Create appropriate infrastructure to copy the file to library folder and add index to db
 TODO: Add ability add multiple files
 TODO: Add ability to add folder of mp3s

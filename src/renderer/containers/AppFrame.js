@@ -32,6 +32,7 @@ class AppFrame extends PureComponent {
     }
   }
 
+  // TODO: Fix back & forward behaviour
   render = () =>
     <div>
       <header>

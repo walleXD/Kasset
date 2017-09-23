@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
-import { func, number } from 'prop-types'
 
-import { increment, decrement } from '../../common/reducers'
+import { _increment as increment, decrement } from '../../common/reducers'
 import Example from '../components/Example'
 
 const mapStateToProps = state => ({
@@ -16,13 +15,6 @@ const mapDispatchToProps = {
 
 @connect(mapStateToProps, mapDispatchToProps)
 class ExampleContainer extends PureComponent {
-  static propTypes = {
-    score: number,
-    increment: func,
-    decrement: func,
-    setHomeDir: func
-  }
-
   render = () => <Example {...this.props} />
 }
 

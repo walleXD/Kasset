@@ -1,6 +1,7 @@
 import React from 'react'
 import { Toolbar, Button, Input, Box, Flex } from 'rebass'
 import { string, func } from 'prop-types'
+import Link from 'react-router-dom/Link'
 
 import Icon from './Icon'
 
@@ -19,7 +20,7 @@ const AppBar = ({className, goBack, goForward}) =>
     </Box>
     <Box w='25%'>
       <Flex>
-        <Button ml='auto'>
+        <Button is={Link} to='/settings' ml='auto' >
           <Icon>settings</Icon>
         </Button>
       </Flex>

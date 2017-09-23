@@ -6,7 +6,9 @@ const Example = ({score, increment, decrement}) =>
   <div>
     <span>{score || 0}</span>
     <br />
-    <Button onClick={() => increment(1)}>Add</Button>
+    <Button onClick={() => {
+      increment(1)
+    }}>Add</Button>
     <Button onClick={() => decrement(1)}>Substract</Button>
   </div>
 
