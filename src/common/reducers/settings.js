@@ -22,7 +22,7 @@ export const __setHomeDir = createAction(
 
 export const _setHomeDir = createAliasedAction(
   'settings/SET_HOME_DIR',
-  __setHomeDir
+  () => __setHomeDir()
 )
 
 export const updateLibraryLocation = createAction(

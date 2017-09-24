@@ -3,7 +3,7 @@ import { Button } from 'rebass'
 import { connect } from 'react-redux'
 import { func } from 'prop-types'
 
-import { _openDialog as openDialog } from '../../common/reducers'
+import { $openDialog as openDialog } from '../../common/reducers'
 
 @connect(null, { openDialog })
 class ExperimentalContainer extends PureComponent {

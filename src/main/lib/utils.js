@@ -3,6 +3,7 @@ import fs from 'fs'
 import { join } from 'path'
 import { createBlacklistFilter } from 'redux-persist-transform-filter'
 import pify from 'pify'
+import mm from 'musicmetadata'
 
 import {
   __initFirstBoot,
@@ -23,7 +24,8 @@ export const initBoot = ({ dispatch, getState }) =>
 export const joinPath = paths => join(...paths)
 
 export const blackListFilters = () => [
-  createBlacklistFilter('example', ['score'])
+  createBlacklistFilter('example', ['score']),
+  createBlacklistFilter('library', ['activeAudioFile'])
 ]
 
 export const openDialog = async () => {
@@ -39,5 +41,17 @@ export const openDialog = async () => {
     return filename
   } catch (e) {
     throw new Error(e)
+  }
+}
+
+export const extractMetaData = async filePath => {
+  const mmAsync = pify(mm)
+  const stream = fs.createReadStream(filePath)
+  try {
+    const metadata = await mmAsync(stream)
+    stream.close()
+    return metadata
+  } catch (e) {
+    return e
   }
 }
