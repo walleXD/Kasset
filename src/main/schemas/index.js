@@ -1,5 +1,8 @@
 import RxDB from 'rxdb'
 
+import bookCollection from './book'
+import trackCollection from './track'
+
 let db = null
 
 export const initDb = async (dir = '/tmp/db') => {
@@ -19,12 +22,13 @@ export const initDb = async (dir = '/tmp/db') => {
 
 const loadCollections = async db => {
   const collections = [
-    await import('./track'),
-    await import('./book')
+    bookCollection,
+    trackCollection
   ]
 
   await Promise.all(
-    collections.map(col => col.default(db))
+    collections.map(col => col(db))
   )
 }
+
 export default db
