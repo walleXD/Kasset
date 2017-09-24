@@ -12,7 +12,6 @@ import store from './lib/store'
 import { initBoot } from './lib/utils'
 
 /*
-TODO: remove levelupDB and add rxDB
 TODO: Add new audiobook insertion process into the library
 TODO: Add ability add multiple files
 TODO: Add ability to add folder of mp3s

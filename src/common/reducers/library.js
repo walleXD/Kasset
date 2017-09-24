@@ -69,13 +69,13 @@ const __createBookFolders = createAction(
 
 const __copyAudioFileToLibrary = createAction(
   'library/COPY_AUDIO_FILE_TO_LIBRARY',
-  () => (dispatch, getState) => {
+  () => async (dispatch, getState) => {
     const {
       originalPath,
       newLibraryDir,
       fileName
     } = getState().library.activeAudioFile
-    copyAudioFile(originalPath, newLibraryDir, fileName)
+    await copyAudioFile(originalPath, newLibraryDir, fileName)
   }
 )
 
