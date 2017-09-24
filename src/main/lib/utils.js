@@ -1,6 +1,7 @@
 import { app, dialog } from 'electron'
-import fs from 'fs'
-import { join } from 'path'
+import fs, { mkdirSync, existsSync } from 'fs'
+import { copy } from 'fs-extra'
+import { join, resolve, basename } from 'path'
 import { createBlacklistFilter } from 'redux-persist-transform-filter'
 import pify from 'pify'
 import mm from 'musicmetadata'
@@ -13,7 +14,7 @@ import {
 export const getHomeDir = () => app.getPath('home')
 
 export const createLibararyLocation = dir => {
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir)
+  if (!existsSync(dir)) mkdirSync(dir)
 }
 
 export const initBoot = ({ dispatch, getState }) =>
@@ -44,6 +45,8 @@ export const openDialog = async () => {
   }
 }
 
+export const getFileName = path => basename(path)
+
 export const extractMetaData = async filePath => {
   const mmAsync = pify(mm)
   const stream = fs.createReadStream(filePath)
@@ -53,5 +56,26 @@ export const extractMetaData = async filePath => {
     return metadata
   } catch (e) {
     return e
+  }
+}
+
+export const createBookFolder = (artist, album, libraryDir) => {
+  const artistDir = resolve(libraryDir, artist)
+  const albumDir = resolve(libraryDir, artist, album)
+  const artistDirExists = existsSync(artistDir)
+  const albumDirExists = existsSync(albumDir)
+  if (albumDirExists) return albumDir
+  if (!artistDirExists) {
+    mkdirSync(artistDir)
+  }
+  mkdirSync(albumDir)
+  return albumDir
+}
+
+export const copyAudioFile = async (src, dest, filename) => {
+  try {
+    await copy(src, join(dest, filename))
+  } catch (e) {
+    console.error(e)
   }
 }
