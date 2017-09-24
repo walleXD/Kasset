@@ -2,7 +2,7 @@ import { createAction, handleActions } from 'redux-actions'
 import { createAliasedAction } from 'electron-redux'
 
 import { getHomeDir, createLibararyLocation, joinPath } from '../../main/lib/utils'
-import { initDb } from '../../main/lib/db'
+import { initDb } from '../../main/schemas'
 
 const INITIAL_STATE = {
   homeDir: '',

@@ -8,12 +8,23 @@ export const initDb = async (dir = '/tmp/db') => {
     RxDB.plugin(require('pouchdb-quick-search'))
     db = await RxDB
       .create({
-        name: '/tmp/kasset',
+        name: '/tmp/db/kasset',
         adapter: 'websql'
       })
+    await loadCollections(db)
   } catch (e) {
     console.error(e)
   }
 }
 
+const loadCollections = async db => {
+  const collections = [
+    await import('./track'),
+    await import('./book')
+  ]
+
+  await Promise.all(
+    collections.map(col => col.default(db))
+  )
+}
 export default db
