@@ -30,6 +30,7 @@ export const blackListFilters = () => [
 ]
 
 export const openDialog = async () => {
+  // cleanup dialog properties for appropriate file extensions
   const asyncShowOpenDialog = pify(dialog.showOpenDialog, {errorFirst: false})
   try {
     const [filename] = await asyncShowOpenDialog({
