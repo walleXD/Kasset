@@ -5,9 +5,9 @@ const schema = {
   type: 'object',
   properties: {
     author: {
-      type: 'string'
+      type: 'array'
     },
-    title: {
+    bookName: {
       type: 'string'
     },
     genres: {
@@ -19,7 +19,7 @@ const schema = {
   },
   required: [
     'author',
-    'title'
+    'bookName'
   ]
 }
 

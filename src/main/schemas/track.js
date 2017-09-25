@@ -4,10 +4,10 @@ const schema = {
   version: 0,
   type: 'object',
   properties: {
-    libraryLocation: {
-      type: 'string'
+    author: {
+      type: 'array'
     },
-    trackName: {
+    fileName: {
       type: 'string'
     },
     title: {
@@ -18,11 +18,17 @@ const schema = {
     },
     bookName: {
       type: 'string'
+    },
+    trackNum: {
+      type: 'object'
     }
   },
   required: [
-    'libraryLocation',
-    'title'
+    'author',
+    'title',
+    'fileName',
+    'bookName',
+    'trackNum'
   ]
 }
 

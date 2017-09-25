@@ -14,8 +14,14 @@ const INITIAL_STATE = {
   activeAudioFile: {
     fileName: '',
     originalPath: '',
-    metadata: {},
-    newLibraryDir: ''
+    metadata: {
+      artist: [],
+      track: {},
+      album: '',
+      title: ''
+    },
+    newLibraryDir: '',
+    error: ''
   }
 }
 
@@ -35,9 +41,14 @@ export const __openDialog = createAction(
       dispatch(__createBookFolders())
       await dispatch(__copyAudioFileToLibrary())
     } catch (e) {
-      return null
+      console.log(e)
+      dispatch(__clearActiveAudioFile())
+      dispatch(__errorHandler(e.message))
     }
   }
+)
+const __errorHandler = createAction(
+  'library/ERROR_HANDLER'
 )
 
 const __setActiveAudioFile = createAction(
@@ -48,12 +59,14 @@ const __extractMetadataFromActive = createAction(
   'library/EXTRACT_METADATA_FROM_ACTIVE',
   () => async (dispatch, getState) => {
     const { originalPath } = getState().library.activeAudioFile
-    const { artist, album, track: { no } } = await extractMetaData(originalPath)
+    const { title, artist, album, track, year } = await extractMetaData(originalPath)
     console.log(await extractMetaData(originalPath))
     dispatch(__setMetadataForActive({
-      artist: artist[0],
-      number: no,
-      album
+      artist,
+      track,
+      album,
+      title,
+      year
     }))
   }
 )
@@ -64,7 +77,7 @@ const __createBookFolders = createAction(
     const { libraryLocation } = getState().settings
     const { artist, album } = getState().library.activeAudioFile.metadata
     dispatch(__setBookLibraryDir(
-      createBookFolder(artist, album, libraryLocation)
+      createBookFolder(artist[0], album, libraryLocation)
     ))
   }
 )
@@ -86,12 +99,13 @@ const __addTrackToDB = createAction(
   () => async (dispatch, getState) => {
     const {
       fileName,
-      metadata: { artist, album, number }
+      metadata: { artist, album, track, title }
     } = getState().library.activeAudioFile
     await addTrackToDB({
       author: artist,
       bookName: album,
-      trackNumber: number
+      trackNum: track,
+      title
     }, fileName)
   }
 )
@@ -129,6 +143,13 @@ export default handleActions({
     activeAudioFile: {
       ...state.activeAudioFile,
       newLibraryDir: payload
+    }
+  }),
+  [__errorHandler]: (state, { payload }) => ({
+    ...state,
+    activeAudioFile: {
+      ...state.activeAudioFile,
+      error: payload
     }
   }),
   [__clearActiveAudioFile]: state => ({

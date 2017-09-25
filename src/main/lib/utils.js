@@ -82,18 +82,51 @@ export const copyAudioFile = async (src, dest, filename) => {
   }
 }
 
-export const addTrackToDB = async ({ author, bookName, trackNumber }, filename) => {
+export const addTrackToDB = async ({ author, bookName, trackNum, title }, fileName) => {
   console.log(
     author,
     bookName,
-    trackNumber,
-    filename
+    trackNum,
+    title,
+    fileName
   )
   const db = await getDB()
-  let book = await db.collections.book.findOne({ title: 'bblah' }).exec()
-  if (!doc) {
-
+  const trackCollection = db.collections.track
+  const bookCollection = db.collections.book
+  console.log('got collection')
+  console.log('enter try catch')
+  let book = await bookCollection
+    .findOne()
+    .where('bookName')
+    .eq(bookName)
+    .exec()
+  let track = await trackCollection.findOne({
+    title: {$eq: title}
+  }).exec()
+  console.log('got documents')
+  console.log('track', track)
+  debugger // eslint-disable-line no-debugger
+  if (track) throw new Error('Track Exists in library')
+  if (!book) {
+    book = await bookCollection.insert({
+      author,
+      bookName,
+      trackIds: []
+    })
   }
+  let bookTrackIds = book.trackIds
+  if (!bookTrackIds) bookTrackIds = []
+  track = await trackCollection.insert({
+    fileName,
+    author,
+    bookName,
+    title,
+    trackNum
+  })
+  console.log('insertion complete')
+  bookTrackIds.push(track._id)
+  await book.set('trackIds', bookTrackIds)
+  console.log('id', book.trackIds)
   // await db.collections.book.insert({
   //   author,
   //   title: bookName
