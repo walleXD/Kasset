@@ -5,6 +5,7 @@ import { join, resolve, basename } from 'path'
 import { createBlacklistFilter } from 'redux-persist-transform-filter'
 import pify from 'pify'
 import mm from 'musicmetadata'
+import getDB from '../schemas'
 
 import {
   __initFirstBoot,
@@ -79,4 +80,22 @@ export const copyAudioFile = async (src, dest, filename) => {
   } catch (e) {
     console.error(e)
   }
+}
+
+export const addTrackToDB = async ({ author, bookName, trackNumber }, filename) => {
+  console.log(
+    author,
+    bookName,
+    trackNumber,
+    filename
+  )
+  const db = await getDB()
+  let book = await db.collections.book.findOne({ title: 'bblah' }).exec()
+  if (!doc) {
+
+  }
+  // await db.collections.book.insert({
+  //   author,
+  //   title: bookName
+  // })
 }

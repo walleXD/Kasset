@@ -6,7 +6,8 @@ import {
   openDialog,
   extractMetaData,
   createBookFolder,
-  getFileName
+  getFileName,
+  addTrackToDB
 } from '../../main/lib/utils'
 
 const INITIAL_STATE = {
@@ -30,6 +31,7 @@ export const __openDialog = createAction(
         fileName
       }))
       await dispatch(__extractMetadataFromActive())
+      await (dispatch(__addTrackToDB()))
       dispatch(__createBookFolders())
       await dispatch(__copyAudioFileToLibrary())
     } catch (e) {
@@ -76,6 +78,21 @@ const __copyAudioFileToLibrary = createAction(
       fileName
     } = getState().library.activeAudioFile
     await copyAudioFile(originalPath, newLibraryDir, fileName)
+  }
+)
+
+const __addTrackToDB = createAction(
+  'library/ADD_TRACK_TO_DB',
+  () => async (dispatch, getState) => {
+    const {
+      fileName,
+      metadata: { artist, album, number }
+    } = getState().library.activeAudioFile
+    await addTrackToDB({
+      author: artist,
+      bookName: album,
+      trackNumber: number
+    }, fileName)
   }
 )
 

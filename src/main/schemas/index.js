@@ -31,4 +31,7 @@ const loadCollections = async db => {
   )
 }
 
-export default db
+export default async () => {
+  if (!db) await initDb()
+  return db
+}
