@@ -1,16 +1,20 @@
 import { app, dialog } from 'electron'
-import fs, { mkdirSync, existsSync } from 'fs'
+import fs, { mkdirSync, existsSync, lstatSync, readdir } from 'fs'
 import { copy } from 'fs-extra'
 import { join, resolve, basename } from 'path'
 import { createBlacklistFilter } from 'redux-persist-transform-filter'
 import pify from 'pify'
 import mm from 'musicmetadata'
-import getDB from '../schemas'
+import readChunk from 'read-chunk'
+import fileType from 'file-type'
 
+import getDB from '../schemas'
 import {
   __initFirstBoot,
   __initBoot
 } from '../../common/reducers/settings'
+
+const APPROVED_FILE_TYPES = ['mp3', 'm4a', 'm4b']
 
 export const getHomeDir = () => app.getPath('home')
 
@@ -30,35 +34,56 @@ export const blackListFilters = () => [
   createBlacklistFilter('library', ['activeAudioFile'])
 ]
 
-export const openDialog = async () => {
-  // cleanup dialog properties for appropriate file extensions
+// library helpers
+export const openDialog = async ({ openDirectory } = { openDirectory: false }) => {
   const asyncShowOpenDialog = pify(dialog.showOpenDialog, {errorFirst: false})
+  const properties = openDirectory
+    ? ['openDirectory']
+    : ['openFile']
+  console.log(properties)
   try {
     const [filename] = await asyncShowOpenDialog({
-      properties: ['openFile'],
+      properties,
+      title: 'Add Track to Library',
       filters: [
-        {name: 'Audio', extensions: ['mp3']},
+        {name: 'Audio', extensions: ['mp3', 'm4a']},
         {name: 'All Files', extensions: ['*']}
       ]
     })
     return filename
   } catch (e) {
-    throw new Error(e)
+    return null
   }
 }
 
 export const getFileName = path => basename(path)
 
+export const isFile = path => lstatSync(path).isFile()
+
+export const filesInDir = async dir => {
+  const readdirAsync = pify(readdir)
+  return readdirAsync(dir)
+}
+
+export const isValidFileType = async filepath => {
+  debugger // eslint-disable-line no-debugger
+  console.log('checking file type')
+  const fileBuffer = await readChunk(filepath, 0, 4100)
+  console.log(fileBuffer)
+  const filetype = await fileType(fileBuffer)
+  console.log(filetype)
+  const {ext} = filetype
+  return APPROVED_FILE_TYPES.includes(ext)
+}
+
 export const extractMetaData = async filePath => {
   const mmAsync = pify(mm)
+  const isValid = await isValidFileType(filePath)
+  if (!isValid) throw new Error('Unsupported format')
   const stream = fs.createReadStream(filePath)
-  try {
-    const metadata = await mmAsync(stream)
-    stream.close()
-    return metadata
-  } catch (e) {
-    return e
-  }
+  const metadata = await mmAsync(stream)
+  stream.close()
+  return metadata
 }
 
 export const createBookFolder = (artist, album, libraryDir) => {
@@ -127,8 +152,4 @@ export const addTrackToDB = async ({ author, bookName, trackNum, title }, fileNa
   bookTrackIds.push(track._id)
   await book.set('trackIds', bookTrackIds)
   console.log('id', book.trackIds)
-  // await db.collections.book.insert({
-  //   author,
-  //   title: bookName
-  // })
 }

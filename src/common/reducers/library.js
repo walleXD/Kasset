@@ -7,7 +7,10 @@ import {
   extractMetaData,
   createBookFolder,
   getFileName,
-  addTrackToDB
+  addTrackToDB,
+  isFile,
+  joinPath,
+  filesInDir
 } from '../../main/lib/utils'
 
 const INITIAL_STATE = {
@@ -27,11 +30,40 @@ const INITIAL_STATE = {
 
 export const __openDialog = createAction(
   'library/OPEN_DIALOG',
-  () => async dispatch => {
+  payload => async dispatch => {
+    const input = await openDialog(payload)
+    if (!input) return null
+    console.log(input)
+    dispatch(__processSelection(input))
+  }
+)
+
+const __processSelection = createAction(
+  'library/PROCESS_SELECTION',
+  input => dispatch =>
+    isFile(input)
+      ? dispatch(__processAudioFile(input))
+      : dispatch(__processFolder(input))
+)
+
+const __processFolder = createAction(
+  'library/PROCESS_FOLDER',
+  folderPath => async dispatch => {
+    console.log('folder path', folderPath)
+    const files = await filesInDir(folderPath)
+    const filePaths = files.map(file => joinPath([folderPath, file]))
+    console.log(filePaths)
+    for (let i = 0; i < filePaths.length; i++) {
+      await dispatch(__processAudioFile(filePaths[i]))
+    }
+  }
+)
+
+const __processAudioFile = createAction(
+  'library/PROCESS_AUDIO_FILE',
+  originalPath => async dispatch => {
+    const fileName = getFileName(originalPath)
     try {
-      const originalPath = await openDialog()
-      if (!originalPath) return null
-      const fileName = getFileName(originalPath)
       dispatch(__setActiveAudioFile({
         originalPath,
         fileName
@@ -40,6 +72,7 @@ export const __openDialog = createAction(
       await (dispatch(__addTrackToDB()))
       dispatch(__createBookFolders())
       await dispatch(__copyAudioFileToLibrary())
+      dispatch(__clearActiveAudioFile())
     } catch (e) {
       console.log(e)
       dispatch(__clearActiveAudioFile())
@@ -124,7 +157,7 @@ const __clearActiveAudioFile = createAction(
 
 export const $openDialog = createAliasedAction(
   'library/OPEN_DIALOG',
-  () => __openDialog()
+  (payload = {}) => __openDialog(payload)
 )
 
 export default handleActions({

@@ -11,7 +11,10 @@ class ExperimentalContainer extends PureComponent {
     openDialog: func
   }
   render = () =>
-    <Button onClick={() => this.props.openDialog()}>Open</Button>
+    <div>
+      <Button onClick={() => this.props.openDialog()}>Open</Button>
+      <Button onClick={() => this.props.openDialog({ openDirectory: true })}>Open Dir</Button>
+    </div>
 }
 
 export default ExperimentalContainer
