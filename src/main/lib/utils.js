@@ -31,7 +31,8 @@ export const joinPath = paths => join(...paths)
 
 export const blackListFilters = () => [
   createBlacklistFilter('example', ['score']),
-  createBlacklistFilter('library', ['activeAudioFile'])
+  createBlacklistFilter('library', ['activeAudioFile']),
+  createBlacklistFilter('libraryView', ['books', 'loading'])
 ]
 
 // library helpers
@@ -152,4 +153,18 @@ export const addTrackToDB = async ({ author, bookName, trackNum, title }, fileNa
   bookTrackIds.push(track._id)
   await book.set('trackIds', bookTrackIds)
   console.log('id', book.trackIds)
+}
+
+export const loadAllBooks = async () => {
+  console.log('about to load books')
+  const db = await getDB()
+  const bookCollection = db.collections.book
+  const booksDocs = await bookCollection.find().exec()
+  const books = []
+  booksDocs.forEach(doc => {
+    const { _id, author, bookName, trackIds } = doc
+    books.push({ _id, author, bookName, trackIds })
+  })
+  console.log(books)
+  return books
 }

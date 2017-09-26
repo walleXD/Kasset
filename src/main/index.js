@@ -12,10 +12,11 @@ import store from './lib/store'
 import { initBoot } from './lib/utils'
 
 /*
+TODO: Add Ui for books
+TODO: Add better error handling for unsupported files
 TODO: Add ability add multiple files
-TODO: Add ability to add folder of mp3s
 TODO: Add ability add folders of mp3s
-TODO: Clean up action creators
+TODO: Clean up action creators with the new standard approach
  */
 
 const isDev = process.env.NODE_ENV !== 'production'
