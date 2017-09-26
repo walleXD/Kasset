@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 }
 
 const __getAllBooks = createAction(
-  'libraryView/GET_ALL_BOOKS',
+  'library/VIEW/GET_ALL_BOOKS',
   () => async dispatch => {
     try {
       dispatch(__setLoadingState(true))
@@ -26,12 +26,12 @@ const __getAllBooks = createAction(
 )
 
 export const $getAllBooks = createAliasedAction(
-  'libraryView/GET_ALL_BOOKS',
+  'library/VIEW/GET_ALL_BOOKS',
   () => __getAllBooks()
 )
 
 const __loadAllBooks = createAction(
-  'libraryView/LOAD_ALL_BOOKS'
+  'library/VIEW/LOAD_ALL_BOOKS'
 )
 
 const __setLoadingState = createAction(

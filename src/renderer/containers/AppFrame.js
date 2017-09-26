@@ -2,13 +2,20 @@ import React, { PureComponent } from 'react'
 import { node, func, object } from 'prop-types'
 import { connect } from 'react-redux'
 import { goBack, goForward } from 'react-router-redux'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import AppBar from '../components/AppBar'
+import NavBar from '../components/NavBar'
+import {
+  $openDialog as openDialog,
+  $getAllBooks as refreshBooks
+} from '../../common/reducers'
 
 const mapDispatchToProps = {
   goForward,
-  goBack
+  goBack,
+  openDialog,
+  refreshBooks
 }
 
 @withRouter
@@ -18,7 +25,10 @@ class AppFrame extends PureComponent {
     children: node,
     goForward: func,
     goBack: func,
-    history: object
+    openDialog: func,
+    refreshBooks: func,
+    history: object,
+    location: object
   }
 
   _goForward = () => {
@@ -32,18 +42,21 @@ class AppFrame extends PureComponent {
     }
   }
 
+  isActive = path =>
+    this.props.location.pathname === path
+
   // TODO: Fix back & forward behaviour
   render = () =>
     <div>
       <header>
         <AppBar
+          {...this.props}
           goBack={this._goBack}
           goForward={this._goForward}
         />
+        <NavBar isActive={this.isActive} />
       </header>
       <main>
-        <Link to='/'>Home</Link>
-        <Link to='/example'>Example</Link>
         {this.props.children}
       </main>
     </div>

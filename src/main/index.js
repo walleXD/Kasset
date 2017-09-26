@@ -49,7 +49,9 @@ const createMainWindow = async () => {
     x: mainWindowState.x,
     y: mainWindowState.y,
     width: mainWindowState.width,
-    height: mainWindowState.height
+    height: mainWindowState.height,
+    minWidth: 800,
+    minHeight: 620
   })
 
   mainWindowState.manage(win)
@@ -88,7 +90,8 @@ const createStorybookWindow = async () => {
     x: storybookWindowState.x,
     y: storybookWindowState.y,
     width: storybookWindowState.width,
-    height: storybookWindowState.height
+    height: storybookWindowState.height,
+    minWidth: 1100
   })
 
   storybookWindowState.manage(win)
