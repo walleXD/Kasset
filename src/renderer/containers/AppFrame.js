@@ -3,6 +3,7 @@ import { node, func, object } from 'prop-types'
 import { connect } from 'react-redux'
 import { goBack, goForward } from 'react-router-redux'
 import { withRouter } from 'react-router-dom'
+import { Box } from 'rebass'
 
 import AppBar from '../components/AppBar'
 import NavBar from '../components/NavBar'
@@ -56,9 +57,9 @@ class AppFrame extends PureComponent {
         />
         <NavBar isActive={this.isActive} />
       </header>
-      <main>
+      <Box mx='5%' is='main'>
         {this.props.children}
-      </main>
+      </Box>
     </div>
 }
 

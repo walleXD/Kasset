@@ -1,5 +1,9 @@
 import React from 'react'
+import { Box, Heading } from 'rebass'
 
-const AuthorsPage = () => <h1>Authors</h1>
+const AuthorsPage = () =>
+  <Box>
+    <Heading my={2}>Authors</Heading>
+  </Box>
 
 export default AuthorsPage

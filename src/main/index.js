@@ -91,7 +91,7 @@ const createStorybookWindow = async () => {
     y: storybookWindowState.y,
     width: storybookWindowState.width,
     height: storybookWindowState.height,
-    minWidth: 1100
+    minWidth: 1000
   })
 
   storybookWindowState.manage(win)

@@ -7,6 +7,7 @@ import { linkTo } from '@storybook/addon-links'
 import { Button, Welcome } from '@storybook/react/demo'
 
 import loadAppBarStories from './AppBar'
+import loadBookCardStories from './BookCard'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />)
 
@@ -15,3 +16,4 @@ storiesOf('Button', module)
   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>)
 
 loadAppBarStories()
+loadBookCardStories()
