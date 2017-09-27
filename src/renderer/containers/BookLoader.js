@@ -23,20 +23,22 @@ class BookLoader extends PureComponent {
   }
 
   _loadBooks = books =>
-    books.map(({author, bookName}, i) =>
-      <BookCard
-        key={i}
-        mb={2} mx={1}
-        w={[1 / 2, 1 / 3, '25%', '20%']}
-        src='https://static.tumblr.com/uqie0nv/1vIn5g72i/default_album_art.png'
-        bookName={bookName}
-        author={author[0]}
-      />
-    )
+    books
+      ? books.map(({author, bookName}, i) =>
+        <BookCard
+          key={i}
+          mb={2} mx={1}
+          w={[1 / 2, 1 / 3, '23.8%', '19.2%']}
+          src='https://static.tumblr.com/uqie0nv/1vIn5g72i/default_album_art.png'
+          bookName={bookName}
+          author={author[0]}
+        />)
+      : <h1>No Books in library</h1>
+
   render = () =>
     <Flex wrap>
-      {this.props.loading || !this.props.books
-        ? <h1>Nothing to see here folks</h1>
+      {this.props.loading
+        ? <h1>Loading</h1>
         : this._loadBooks(this.props.books)}
     </Flex>
 }
