@@ -1945,6 +1945,21 @@ bser@^2.0.0:
   dependencies:
     node-int64 "^0.4.0"
 
+buffer-alloc-unsafe@^0.1.0:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/buffer-alloc-unsafe/-/buffer-alloc-unsafe-0.1.1.tgz#ffe1f67551dd055737de253337bfe853dfab1a6a"
+
+buffer-alloc@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/buffer-alloc/-/buffer-alloc-1.1.0.tgz#05514d33bf1656d3540c684f65b1202e90eca303"
+  dependencies:
+    buffer-alloc-unsafe "^0.1.0"
+    buffer-fill "^0.1.0"
+
+buffer-fill@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/buffer-fill/-/buffer-fill-0.1.0.tgz#ca9470e8d4d1b977fd7543f4e2ab6a7dc95101a8"
+
 buffer-from@0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-0.1.1.tgz#57b18b1da0a19ec06f33837a5275a242351bd75e"
@@ -6222,6 +6237,12 @@ mathml-tag-names@^2.0.1:
 max-safe-integer@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/max-safe-integer/-/max-safe-integer-1.0.1.tgz#f38060be2c563d8c02e6d48af39122fd83b6f410"
+
+md5-file@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/md5-file/-/md5-file-3.2.3.tgz#f9bceb941eca2214a4c0727f5e700314e770f06f"
+  dependencies:
+    buffer-alloc "^1.1.0"
 
 md5-jkmyers@0.0.1:
   version "0.0.1"

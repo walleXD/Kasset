@@ -59,6 +59,7 @@
     "fsa-redux-thunk": "^2.3.0",
     "history": "^4.7.2",
     "material-design-icons": "^3.0.1",
+    "md5-file": "^3.2.3",
     "mdi": "^2.0.46",
     "musicmetadata": "^2.0.5",
     "pify": "^3.0.0",

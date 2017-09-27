@@ -134,9 +134,11 @@ const __addTrackToDB = createAction(
   () => async (dispatch, getState) => {
     const {
       fileName,
+      originalPath,
       metadata: { artist, album, track, title }
     } = getState().library.activeAudioFile
     await addTrackToDB({
+      originalPath,
       author: artist,
       bookName: album,
       trackNum: track,

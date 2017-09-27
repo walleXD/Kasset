@@ -7,6 +7,7 @@ import pify from 'pify'
 import mm from 'musicmetadata'
 import readChunk from 'read-chunk'
 import fileType from 'file-type'
+import hashGenerator from 'md5-file/promise'
 
 import getDB from '../schemas'
 import {
@@ -108,8 +109,12 @@ export const copyAudioFile = async (src, dest, filename) => {
   }
 }
 
-export const addTrackToDB = async ({ author, bookName, trackNum, title }, fileName) => {
+export const addTrackToDB = async (
+  { originalPath, author, bookName, trackNum, title },
+  fileName
+) => {
   console.log(
+    originalPath,
     author,
     bookName,
     trackNum,
@@ -119,23 +124,29 @@ export const addTrackToDB = async ({ author, bookName, trackNum, title }, fileNa
   const db = await getDB()
   const trackCollection = db.collections.track
   const bookCollection = db.collections.book
+  const authorCollection = db.collections.author
   console.log('got collection')
   console.log('enter try catch')
+  const trackHash = await hashGenerator(originalPath)
   let book = await bookCollection
     .findOne()
     .where('bookName')
     .eq(bookName)
     .exec()
-  let track = await trackCollection.findOne({
-    fileName: {$eq: fileName},
-    bookName: {$eq: bookName}
-  }).exec()
+  let track = await trackCollection
+    .findOne()
+    .where('hash')
+    .eq(trackHash)
+    .exec()
+  console.log('about to get author doc')
+  let authorDoc = await authorCollection
+    .findOne()
+    .where('name')
+    .eq(author)
+    .exec()
   console.log('got documents')
-  console.log('track', track)
-  if (track) {
-    console.log(track.fileName)
-    throw new Error('Track Exists in library')
-  }
+  console.log('authordoc', track, authorDoc)
+  if (track) throw new Error('Track Exists in library')
   if (!book) {
     book = await bookCollection.insert({
       author,
@@ -143,9 +154,18 @@ export const addTrackToDB = async ({ author, bookName, trackNum, title }, fileNa
       trackIds: []
     })
   }
-  let bookTrackIds = book.trackIds
-  if (!bookTrackIds) bookTrackIds = []
+  const bookTrackIds = book.trackIds
+  if (!authorDoc) {
+    authorDoc = await authorCollection.insert({
+      name: author[0],
+      authorBookIds: []
+    })
+  }
+  const authorBooksIds = authorDoc.authorBookIds
+  authorBooksIds.push(book._id)
+  await authorDoc.set('authorBookIds', authorBooksIds)
   track = await trackCollection.insert({
+    hash: trackHash,
     fileName,
     author,
     bookName,
@@ -153,7 +173,7 @@ export const addTrackToDB = async ({ author, bookName, trackNum, title }, fileNa
     trackNum
   })
   console.log('insertion complete')
-  bookTrackIds.push(track._id)
+  bookTrackIds.push(track.hash)
   await book.set('trackIds', bookTrackIds)
   console.log('id', book.trackIds)
 }
@@ -162,8 +182,11 @@ export const loadAllBooks = async () => {
   console.log('about to load books')
   const db = await getDB()
   const bookCollection = db.collections.book
-  const booksDocs = await bookCollection.find().exec()
-  // console.log(await bookCollection.find({sort: {bookName: 'asc'}}).exec())
+  const booksDocs = await bookCollection
+    .find({
+      sort: ['bookName']
+    })
+    .exec()
   const books = []
   booksDocs.forEach(doc => {
     const { _id, author, bookName, trackIds } = doc

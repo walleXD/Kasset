@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Text, Box, Truncate } from 'rebass'
+import { Image, Box, Truncate } from 'rebass'
 import { string } from 'prop-types'
 
 import Card from './Card'
@@ -11,7 +11,7 @@ const BookCard = ({src, author, bookName, ...restProps}) =>
       <Truncate f={[1 / 2, 1, 2, 2]} bold>
         {bookName}
       </Truncate>
-      <Text f={[1 / 2, 1, 2, 2]}>{author}</Text>
+      <Truncate f={[1 / 2, 1, 2, 2]}>{author}</Truncate>
     </Box>
   </Card>
 

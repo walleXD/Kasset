@@ -21,9 +21,13 @@ const schema = {
     },
     trackNum: {
       type: 'object'
+    },
+    hash: {
+      type: 'string'
     }
   },
   required: [
+    'hash',
     'author',
     'title',
     'fileName',

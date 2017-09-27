@@ -2,6 +2,7 @@ import RxDB from 'rxdb'
 
 import bookCollection from './book'
 import trackCollection from './track'
+import authorCollection from './author'
 
 let db = null
 
@@ -23,7 +24,8 @@ export const initDb = async (dir = '/tmp/db') => {
 const loadCollections = async db => {
   const collections = [
     bookCollection,
-    trackCollection
+    trackCollection,
+    authorCollection
   ]
 
   await Promise.all(
