@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { Tabs, TabItem, Flex, Box } from 'rebass'
 import { func } from 'prop-types'
 
-const NavBar = ({ isActive }) =>
-  <Flex justify='center' is='nav'>
+const NavBar = ({ isActive, ...restProps }) =>
+  <Flex {...restProps} justify='center' is='nav'>
     <Box>
       <Tabs>
         <TabItem active={isActive('/')} f={[3]} is={Link} to='/'>Books</TabItem>
