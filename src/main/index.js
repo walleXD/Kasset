@@ -12,13 +12,12 @@ import store from './lib/store'
 import { initBoot } from './lib/utils'
 
 /*
-TODO: Fix wonky book imports
+TODO: Add handling files with bad meta data being added to the library
 TODO: Add track view for books
 TODO: Add track playback
 TODO: Add playback progress tracking
 TODO: Add better error handling for unsupported files
 TODO: Add ability add multiple files
-TODO: Add ability add folders of mp3s
 TODO: Clean up action creators with the new standard approach
  */
 

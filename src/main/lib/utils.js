@@ -127,12 +127,15 @@ export const addTrackToDB = async ({ author, bookName, trackNum, title }, fileNa
     .eq(bookName)
     .exec()
   let track = await trackCollection.findOne({
-    title: {$eq: title}
+    fileName: {$eq: fileName},
+    bookName: {$eq: bookName}
   }).exec()
   console.log('got documents')
   console.log('track', track)
-  debugger // eslint-disable-line no-debugger
-  if (track) throw new Error('Track Exists in library')
+  if (track) {
+    console.log(track.fileName)
+    throw new Error('Track Exists in library')
+  }
   if (!book) {
     book = await bookCollection.insert({
       author,

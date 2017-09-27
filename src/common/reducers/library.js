@@ -54,7 +54,7 @@ const __processFolder = createAction(
     const filePaths = files.map(file => joinPath([folderPath, file]))
     console.log(filePaths)
     for (let i = 0; i < filePaths.length; i++) {
-      await dispatch(__processAudioFile(filePaths[i]))
+      await dispatch(__processSelection(filePaths[i]))
     }
   }
 )
@@ -92,8 +92,10 @@ const __extractMetadataFromActive = createAction(
   'library/EXTRACT_METADATA_FROM_ACTIVE',
   () => async (dispatch, getState) => {
     const { originalPath } = getState().library.activeAudioFile
-    const { title, artist, album, track, year } = await extractMetaData(originalPath)
+    let { title, artist, album, track, year } = await extractMetaData(originalPath)
     console.log(await extractMetaData(originalPath))
+    if (!album) album = 'Unknown'
+    if (!artist) artist = ['Unknown']
     dispatch(__setMetadataForActive({
       artist,
       track,
