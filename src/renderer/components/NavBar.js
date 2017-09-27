@@ -7,7 +7,7 @@ const NavBar = ({ isActive }) =>
   <Flex justify='center' is='nav'>
     <Box>
       <Tabs>
-        <TabItem active={isActive('/books')} f={[3]} is={Link} to='/books'>Books</TabItem>
+        <TabItem active={isActive('/')} f={[3]} is={Link} to='/'>Books</TabItem>
         <TabItem mr='0' active={isActive('/authors')} f={[3]} is={Link} to='/authors'>Authors</TabItem>
       </Tabs>
     </Box>

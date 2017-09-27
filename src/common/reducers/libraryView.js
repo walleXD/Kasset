@@ -10,12 +10,14 @@ const INITIAL_STATE = {
   loading: false
 }
 
-const __getAllBooks = createAction(
+export const __getAllBooks = createAction(
   'library/VIEW/GET_ALL_BOOKS',
   () => async dispatch => {
     try {
       dispatch(__setLoadingState(true))
+      console.log('about to get all books')
       const books = await loadAllBooks()
+      console.log('got all books')
       dispatch(__loadAllBooks(books))
       dispatch(__setLoadingState(false))
     } catch (e) {

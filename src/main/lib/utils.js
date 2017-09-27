@@ -12,7 +12,7 @@ import getDB from '../schemas'
 import {
   __initFirstBoot,
   __initBoot
-} from '../../common/reducers/settings'
+} from '../../common/reducers'
 
 const APPROVED_FILE_TYPES = ['mp3', 'm4a', 'm4b']
 
@@ -160,6 +160,7 @@ export const loadAllBooks = async () => {
   const db = await getDB()
   const bookCollection = db.collections.book
   const booksDocs = await bookCollection.find().exec()
+  // console.log(await bookCollection.find({sort: {bookName: 'asc'}}).exec())
   const books = []
   booksDocs.forEach(doc => {
     const { _id, author, bookName, trackIds } = doc

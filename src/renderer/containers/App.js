@@ -17,11 +17,11 @@ injectGlobal`
 
 const App = () =>
   <Switch>
-    <DefaultLayout path='/' component={HomePage} exact />
+    <DefaultLayout path='/' component={BooksPage} exact />
     <DefaultLayout path='/example' component={ExamplePage} />
     <DefaultLayout path='/settings' component={SettingsPage} />
     <DefaultLayout path='/authors' component={AuthorsPage} />
-    <DefaultLayout path='/books' component={BooksPage} />
+    <DefaultLayout path='/home' component={HomePage} />
   </Switch>
 
 export default App

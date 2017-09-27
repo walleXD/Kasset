@@ -5,7 +5,7 @@ import { string, func } from 'prop-types'
 import Icon from './Icon'
 
 const AppBar = ({className, goBack, goForward, openDialog, refreshBooks, push}) =>
-  <Toolbar className={className}>
+  <Toolbar is={Flex} justify='space-between' className={className}>
     <Box w='15%' py='auto'>
       <Button mr={1} onClick={goBack}>
         <Icon>arrow_back</Icon>

@@ -3,6 +3,7 @@ import { createAliasedAction } from 'electron-redux'
 
 import { getHomeDir, createLibararyLocation, joinPath } from '../../main/lib/utils'
 import { initDb } from '../../main/schemas'
+import { __getAllBooks } from './libraryView'
 
 const INITIAL_STATE = {
   homeDir: '',
@@ -35,7 +36,7 @@ export const __updateDbLocation = createAction(
 
 export const __createLibraryLocation = createAction(
   'settings/CREATE_LIBRARY_LOCATION',
-  () => (dispatch, getState) => {
+  () => async (dispatch, getState) => {
     const { libraryLocation } = getState().settings
     createLibararyLocation(libraryLocation)
     dispatch(__updateDbLocation())
@@ -65,10 +66,11 @@ export const __initFirstBoot = createAction(
 
 export const __initBoot = createAction(
   'settings/INIT_BOOT',
-  () => (dispatch, getState) => {
+  () => async (dispatch, getState) => {
     const { dbLocation } = getState().settings
     console.log('loc', dbLocation)
-    dispatch(__initDB())
+    // dispatch(__initDB())
+    await dispatch(__getAllBooks())
     dispatch(__completedBoot())
   }
 )
