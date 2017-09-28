@@ -13,6 +13,8 @@ import {
   filesInDir
 } from '../../main/lib/utils'
 
+import { __getAllBooks } from './libraryView'
+
 const INITIAL_STATE = {
   activeAudioFile: {
     fileName: '',
@@ -34,13 +36,14 @@ export const __openDialog = createAction(
     const input = await openDialog(payload)
     if (!input) return null
     console.log(input)
-    dispatch(__processSelection(input))
+    await dispatch(__processSelection(input))
+    dispatch(__getAllBooks())
   }
 )
 
 const __processSelection = createAction(
   'library/PROCESS_SELECTION',
-  input => dispatch =>
+  input => async dispatch =>
     isFile(input)
       ? dispatch(__processAudioFile(input))
       : dispatch(__processFolder(input))

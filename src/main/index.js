@@ -12,7 +12,6 @@ import store from './lib/store'
 import { initBoot } from './lib/utils'
 
 /*
-TODO: Add handling files with bad meta data being added to the library
 TODO: Add track view for books
 TODO: Add track playback
 TODO: Add playback progress tracking

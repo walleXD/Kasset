@@ -1,12 +1,17 @@
 import React from 'react'
 import { Toolbar, Button, Input, Box, Flex } from 'rebass'
+import styled from 'styled-components'
 import { string, func } from 'prop-types'
 
 import Icon from './Icon'
 
+const Spacer = styled(Box)`
+  flex-grow: 1;
+`
+
 const AppBar = ({className, goBack, goForward, openDialog, refreshBooks, push}) =>
   <Toolbar is={Flex} justify='space-between' className={className}>
-    <Box w='15%' py='auto'>
+    <Box w='110px' py='auto'>
       <Button mr={1} onClick={goBack}>
         <Icon>arrow_back</Icon>
       </Button>
@@ -14,7 +19,7 @@ const AppBar = ({className, goBack, goForward, openDialog, refreshBooks, push}) 
         <Icon>arrow_forward</Icon>
       </Button>
     </Box>
-    <Box w='25%' py='auto'>
+    <Box w='150px' py='auto'>
       <Button mr={1} onClick={() => openDialog()}>
         <Icon>library_add</Icon>
       </Button>
@@ -25,12 +30,13 @@ const AppBar = ({className, goBack, goForward, openDialog, refreshBooks, push}) 
         <Icon>refresh</Icon>
       </Button>
     </Box>
-    <Box w='55%' py='auto'>
+    <Spacer w='25%' mx='auto' />
+    <Box w='25%' py='auto'>
       <Flex>
-        <Input w='50%' disabled placeholder='Search' ml='auto' />
+        <Input disabled placeholder='Search' ml='auto' />
       </Flex>
     </Box>
-    <Box w='10%'>
+    <Box w='70px'>
       <Flex>
         <Button onClick={() => push('/settings')} ml='auto' >
           <Icon>settings</Icon>

@@ -4,9 +4,14 @@ import { createAliasedAction } from 'electron-redux'
 import { loadAllBooks } from '../../../src/main/lib/utils'
 
 const INITIAL_STATE = {
-  books: [
-    {} // Documents from DB
-  ],
+  books: {
+    // 0: {
+    //   _id: '',
+    //   author: [],
+    //   bookName: '',
+    //   trackIds: []
+    // } // Documents from DB
+  },
   loading: false
 }
 
@@ -42,7 +47,7 @@ const __setLoadingState = createAction(
 
 export default handleActions({
   [__loadAllBooks]: (state, { payload }) => ({
-    ...state, books: payload
+    ...state, books: {...payload}
   }),
   [__setLoadingState]: (state, { payload }) => ({
     ...state, loading: payload

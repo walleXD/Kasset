@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Flex } from 'rebass'
 import { connect } from 'react-redux'
-import { array, bool } from 'prop-types'
+import { object, bool } from 'prop-types'
+import _ from 'lodash'
 
 import BookCard from '../components/BookCard'
 
@@ -18,14 +19,14 @@ const mapStateToProps = state => {
 @connect(mapStateToProps)
 class BookLoader extends PureComponent {
   static propTypes = {
-    books: array,
+    books: object,
     loading: bool
   }
 
   _loadBooks = books =>
-    !books
+    Object.keys(books).length === 0
       ? <h1>No Books in library</h1>
-      : books
+      : _.values(books)
         .sort((a, b) => a.bookName.localeCompare(b.bookName))
         .map(({author, bookName}, i) =>
           <BookCard
@@ -40,7 +41,7 @@ class BookLoader extends PureComponent {
   render = () =>
     <Flex wrap>
       {this.props.loading
-        ? <h1>Loading</h1>
+        ? <h1>Loading</h1> // TODO: Create proper loading component
         : this._loadBooks(this.props.books)}
     </Flex>
 }

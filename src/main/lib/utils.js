@@ -154,16 +154,16 @@ export const addTrackToDB = async (
       trackIds: []
     })
   }
-  const bookTrackIds = book.trackIds
   if (!authorDoc) {
     authorDoc = await authorCollection.insert({
       name: author[0],
       authorBookIds: []
     })
   }
-  const authorBooksIds = authorDoc.authorBookIds
-  authorBooksIds.push(book._id)
-  await authorDoc.set('authorBookIds', authorBooksIds)
+  const authorBookIds = authorDoc.authorBookIds
+  authorBookIds.push(book._id)
+  authorDoc.authorBookIds = authorBookIds
+  await authorDoc.save()
   track = await trackCollection.insert({
     hash: trackHash,
     fileName,
@@ -173,8 +173,10 @@ export const addTrackToDB = async (
     trackNum
   })
   console.log('insertion complete')
-  bookTrackIds.push(track.hash)
-  await book.set('trackIds', bookTrackIds)
+  const trackIds = book.trackIds
+  trackIds.push(track.hash)
+  book.trackIds = trackIds
+  await book.save()
   console.log('id', book.trackIds)
 }
 
