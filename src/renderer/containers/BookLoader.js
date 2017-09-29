@@ -47,3 +47,5 @@ class BookLoader extends PureComponent {
 }
 
 export default BookLoader
+
+// TODO: Rename to bookshelf

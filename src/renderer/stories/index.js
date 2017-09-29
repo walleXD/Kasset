@@ -8,6 +8,7 @@ import { Button, Welcome } from '@storybook/react/demo'
 
 import loadAppBarStories from './AppBar'
 import loadBookCardStories from './BookCard'
+import loadBookInfoStories from './BookInfo'
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />)
 
@@ -17,3 +18,4 @@ storiesOf('Button', module)
 
 loadAppBarStories()
 loadBookCardStories()
+loadBookInfoStories()
