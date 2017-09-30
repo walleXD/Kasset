@@ -1,6 +1,7 @@
 import React from 'react'
 import { Image, Box, Truncate } from 'rebass'
 import { string } from 'prop-types'
+import styled from 'styled-components'
 
 import Card from './Card'
 
@@ -21,4 +22,7 @@ BookCard.propTypes = {
   author: string
 }
 
-export default BookCard
+export default styled(BookCard)`
+  text-decoration: none;
+  color: black;
+`

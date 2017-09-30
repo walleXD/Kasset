@@ -4,9 +4,11 @@ import { connect } from 'react-redux'
 import { func } from 'prop-types'
 
 import {
-  $openDialog as openDialog,
   $getAllBooks as getAllBooks
-} from '../../common/reducers'
+} from '../../common/actions/libraryView'
+import {
+  $openDialog as openDialog
+} from '../../common/actions/library'
 
 @connect(null, { openDialog, getAllBooks })
 class ExperimentalContainer extends PureComponent {

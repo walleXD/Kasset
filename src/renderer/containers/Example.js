@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 
-import { _increment as increment, decrement } from '../../common/reducers'
+import { _increment as increment, decrement } from '../../common/actions/example'
 import Example from '../components/Example'
 
 const mapStateToProps = state => ({

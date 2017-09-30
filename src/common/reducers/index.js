@@ -20,8 +20,3 @@ export default {
   library,
   libraryView
 }
-
-export * from './example'
-export * from './settings'
-export * from './library'
-export * from './libraryView'

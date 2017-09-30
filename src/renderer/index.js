@@ -1,3 +1,4 @@
+import 'react-hot-loader/patch'
 import { AppContainer } from 'react-hot-loader'
 import React from 'react'
 import { render } from 'react-dom'
@@ -30,4 +31,4 @@ const renderApp = Component => render(
 
 renderApp(App)
 
-if (module.hot) module.hot.accept('./containers/App', () => renderApp(App))
+if (module.hot) module.hot.accept('./containers/App', () => renderApp(require('./containers/App').default))

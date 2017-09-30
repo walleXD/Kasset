@@ -8,9 +8,11 @@ import { Box, Fixed } from 'rebass'
 import AppBar from '../components/AppBar'
 import NavBar from '../components/NavBar'
 import {
-  $openDialog as openDialog,
   $getAllBooks as refreshBooks
-} from '../../common/reducers'
+} from '../../common/actions/libraryView'
+import {
+  $openDialog as openDialog
+} from '../../common/actions/library'
 
 const mapDispatchToProps = {
   goForward,

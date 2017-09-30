@@ -13,7 +13,7 @@ import getDB from '../schemas'
 import {
   __initFirstBoot,
   __initBoot
-} from '../../common/reducers'
+} from '../../common/actions/settings'
 
 const APPROVED_FILE_TYPES = ['mp3', 'm4a', 'm4b']
 

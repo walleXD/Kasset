@@ -17,7 +17,6 @@ TODO: Add track playback
 TODO: Add playback progress tracking
 TODO: Add better error handling for unsupported files
 TODO: Add ability add multiple files
-TODO: Clean up action creators with the new standard approach
  */
 
 const isDev = process.env.NODE_ENV !== 'production'
