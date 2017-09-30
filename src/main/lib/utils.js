@@ -68,12 +68,8 @@ export const filesInDir = async dir => {
 }
 
 export const isValidFileType = async filepath => {
-  debugger // eslint-disable-line no-debugger
-  console.log('checking file type')
   const fileBuffer = await readChunk(filepath, 0, 4100)
-  console.log(fileBuffer)
   const filetype = await fileType(fileBuffer)
-  console.log(filetype)
   const {ext} = filetype
   return APPROVED_FILE_TYPES.includes(ext)
 }
@@ -82,22 +78,27 @@ export const extractMetaData = async filePath => {
   const mmAsync = pify(mm)
   const isValid = await isValidFileType(filePath)
   if (!isValid) throw new Error('Unsupported format')
+
   const stream = fs.createReadStream(filePath)
   const metadata = await mmAsync(stream)
   stream.close()
+
   return metadata
 }
 
 export const createBookFolder = (artist, album, libraryDir) => {
   const artistDir = resolve(libraryDir, artist)
   const albumDir = resolve(libraryDir, artist, album)
+
   const artistDirExists = existsSync(artistDir)
   const albumDirExists = existsSync(albumDir)
+
   if (albumDirExists) return albumDir
   if (!artistDirExists) {
     mkdirSync(artistDir)
   }
   mkdirSync(albumDir)
+
   return albumDir
 }
 
@@ -113,21 +114,13 @@ export const addTrackToDB = async (
   { originalPath, author, bookName, trackNum, title },
   fileName
 ) => {
-  console.log(
-    originalPath,
-    author,
-    bookName,
-    trackNum,
-    title,
-    fileName
-  )
   const db = await getDB()
+
   const trackCollection = db.collections.track
   const bookCollection = db.collections.book
   const authorCollection = db.collections.author
-  console.log('got collection')
-  console.log('enter try catch')
   const trackHash = await hashGenerator(originalPath)
+
   let book = await bookCollection
     .findOne()
     .where('bookName')
@@ -138,15 +131,14 @@ export const addTrackToDB = async (
     .where('hash')
     .eq(trackHash)
     .exec()
-  console.log('about to get author doc')
   let authorDoc = await authorCollection
     .findOne()
     .where('name')
     .eq(author)
     .exec()
-  console.log('got documents')
-  console.log('authordoc', track, authorDoc)
+
   if (track) throw new Error('Track Exists in library')
+
   if (!book) {
     book = await bookCollection.insert({
       author,
@@ -154,16 +146,19 @@ export const addTrackToDB = async (
       trackIds: []
     })
   }
+
   if (!authorDoc) {
     authorDoc = await authorCollection.insert({
       name: author[0],
       authorBookIds: []
     })
   }
+
   const authorBookIds = authorDoc.authorBookIds
   authorBookIds.push(book._id)
   authorDoc.authorBookIds = authorBookIds
   await authorDoc.save()
+
   track = await trackCollection.insert({
     hash: trackHash,
     fileName,
@@ -172,28 +167,28 @@ export const addTrackToDB = async (
     title,
     trackNum
   })
-  console.log('insertion complete')
   const trackIds = book.trackIds
   trackIds.push(track.hash)
   book.trackIds = trackIds
+
   await book.save()
-  console.log('id', book.trackIds)
 }
 
 export const loadAllBooks = async () => {
-  console.log('about to load books')
   const db = await getDB()
+
   const bookCollection = db.collections.book
   const booksDocs = await bookCollection
     .find({
       sort: ['bookName']
     })
     .exec()
+
   const books = []
   booksDocs.forEach(doc => {
     const { _id, author, bookName, trackIds } = doc
     books.push({ _id, author, bookName, trackIds })
   })
-  console.log(books)
+
   return books
 }

@@ -11,14 +11,6 @@ import installExtension, {
 import store from './lib/store'
 import { initBoot } from './lib/utils'
 
-/*
-TODO: Add track view for books
-TODO: Add track playback
-TODO: Add playback progress tracking
-TODO: Add better error handling for unsupported files
-TODO: Add ability add multiple files
- */
-
 const isDev = process.env.NODE_ENV !== 'production'
 
 let mainWindow
@@ -123,3 +115,11 @@ app.on('ready', async () => {
   if (isDev) storybookWindow = createStorybookWindow()
   mainWindow = createMainWindow()
 })
+
+/*
+TODO: Add track view for books
+TODO: Add track playback
+TODO: Add playback progress tracking
+TODO: Add better error handling for unsupported files
+TODO: Add ability add multiple files
+ */
