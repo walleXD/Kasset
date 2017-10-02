@@ -8,6 +8,7 @@ import mm from 'musicmetadata'
 import readChunk from 'read-chunk'
 import fileType from 'file-type'
 import hashGenerator from 'md5-file/promise'
+import _ from 'lodash'
 
 import getDB from '../schemas'
 import {
@@ -33,7 +34,7 @@ export const joinPath = paths => join(...paths)
 export const blackListFilters = () => [
   createBlacklistFilter('example', ['score']),
   createBlacklistFilter('library', ['activeAudioFile']),
-  createBlacklistFilter('libraryView', ['books', 'loading'])
+  createBlacklistFilter('libraryView', ['books', 'loading', 'activeBook'])
 ]
 
 // library helpers
@@ -191,4 +192,19 @@ export const loadAllBooks = async () => {
   })
 
   return books
+}
+
+export const loadAllTracks = async trackIds => {
+  const db = await getDB()
+  const trackCollection = db.collections.track
+  const trackDocs = await trackCollection.find({
+    hash: {
+      $in: trackIds
+    }
+  }).exec()
+  const tracks = {}
+  trackDocs.forEach((track, i) => {
+    tracks[i] = _.pick(track, ['author', 'fileName', 'title', 'bookName', 'trackNum', 'hash'])
+  })
+  return tracks
 }

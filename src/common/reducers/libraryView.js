@@ -2,7 +2,10 @@ import { handleActions } from 'redux-actions'
 
 import {
   __loadAllBooks,
-  __setLoadingState
+  __setLoadingState,
+  setActiveBook,
+  __loadActiveBookTracks,
+  clearActiveBooktracks
 } from '../actions/libraryView'
 
 const INITIAL_STATE = {
@@ -14,7 +17,16 @@ const INITIAL_STATE = {
     //   trackIds: []
     // } // Documents from DB
   },
-  loading: false
+  loading: false,
+  activeBook: {
+    loading: false,
+    id: '',
+    author: [],
+    bookName: '',
+    tracks: {
+      // 0: {}
+    }
+  }
 }
 
 export default handleActions({
@@ -23,5 +35,19 @@ export default handleActions({
   }),
   [__setLoadingState]: (state, { payload }) => ({
     ...state, loading: payload
+  }),
+  [setActiveBook]: (state, { payload: {id, bookName, author} }) => ({
+    ...state, activeBook: { loading: true, id, bookName, author }
+  }),
+  [__loadActiveBookTracks]: (state, { payload }) => ({
+    ...state,
+    activeBook: {
+      ...state.activeBook,
+      tracks: payload,
+      loading: false
+    }
+  }),
+  [clearActiveBooktracks]: (state) => ({
+    ...state, activeBook: { loading: false }
   })
 }, INITIAL_STATE)

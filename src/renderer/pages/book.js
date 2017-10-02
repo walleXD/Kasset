@@ -1,12 +1,13 @@
 import React from 'react'
-import { Box } from 'rebass'
+import { object } from 'prop-types'
 
-import BookInfo from '../components/BookInfo'
+import BookOpen from '../containers/BookOpen'
 
-const BookPage = props =>
-  <Box>
-    {console.log(props)}
-    <BookInfo />
-  </Box>
+const BookPage = ({ match }) =>
+  <BookOpen id={match.params.id} />
+
+BookPage.propTypes = {
+  match: object
+}
 
 export default BookPage

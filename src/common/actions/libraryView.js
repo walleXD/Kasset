@@ -1,7 +1,7 @@
 import { createAction } from 'redux-actions'
 import { createAliasedAction } from 'electron-redux'
 
-import { loadAllBooks } from '../../../src/main/lib/utils'
+import { loadAllBooks, loadAllTracks } from '../../../src/main/lib/utils'
 
 export const __getAllBooks = createAction(
   'library/VIEW/GET_ALL_BOOKS',
@@ -30,5 +30,29 @@ export const __loadAllBooks = createAction(
 )
 
 export const __setLoadingState = createAction(
-  'SET_LOADING_STATE'
+  'library/VIEW/SET_LOADING_STATE'
+)
+
+export const setActiveBook = createAction(
+  'library/VIEW/SET_ACTIVE_BOOK'
+)
+
+export const __loadActiveBookTracks = createAction(
+  'library/VIEW/LOAD_ACTIVE_BOOK_TRACKS',
+  async trackIds => {
+    try {
+      return loadAllTracks(trackIds)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+)
+
+export const $loadActiveBookTracks = createAliasedAction(
+  'library/VIEW/LOAD_ACTIVE_BOOK_TRACKS',
+  trackIds => __loadActiveBookTracks(trackIds)
+)
+
+export const clearActiveBooktracks = createAction(
+  'library/VIEW/CLEAR_ACTIVE_BOOK_TRACKS'
 )
