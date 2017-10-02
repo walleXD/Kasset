@@ -48,6 +48,6 @@ export default handleActions({
     }
   }),
   [clearActiveBooktracks]: (state) => ({
-    ...state, activeBook: { loading: false }
+    ...state, activeBook: INITIAL_STATE.activeBook
   })
 }, INITIAL_STATE)

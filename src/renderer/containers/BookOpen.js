@@ -38,8 +38,8 @@ class OpenBook extends PureComponent {
     tracks: object,
     bookName: string,
     author: array,
-    books: object
-    // clearActiveBooktracks: func
+    books: object,
+    clearActiveBooktracks: func
   }
 
   componentWillMount () {
@@ -62,14 +62,15 @@ class OpenBook extends PureComponent {
     this.props.loading
       ? <h1>Loading</h1>
       : <BookInfo
+        loading={this.props.loading}
         tracks={this.props.tracks}
         bookName={this.props.bookName}
         author={this.props.author}
       />
-  //
-  // componentWillUnmount () {
-  //   this.props.clearActiveBooktracks()
-  // }
+
+  componentWillUnmount () {
+    this.props.clearActiveBooktracks()
+  }
 }
 
 export default OpenBook
