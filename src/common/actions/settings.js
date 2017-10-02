@@ -3,7 +3,7 @@ import { createAliasedAction } from 'electron-redux'
 
 import { getHomeDir, createLibararyLocation } from '../../main/lib/utils'
 import { initDb } from '../../main/schemas'
-import { __getAllBooks } from './libraryView'
+import { __getAllBooks, clearActiveBooktracks } from './libraryView'
 
 export const __setHomeDir = createAction(
   'settings/SET_HOME_DIR',
@@ -49,6 +49,7 @@ export const __initFirstBoot = createAction(
   () => dispatch => {
     dispatch(__setHomeDir())
     dispatch(updateLibraryLocation())
+    dispatch(clearActiveBooktracks())
     dispatch(__createLibraryLocation())
   }
 )
@@ -60,6 +61,7 @@ export const __initBoot = createAction(
     console.log('loc', dbLocation)
     // dispatch(__initDB())
     await dispatch(__getAllBooks())
+    dispatch(clearActiveBooktracks())
     dispatch(__completedBoot())
   }
 )

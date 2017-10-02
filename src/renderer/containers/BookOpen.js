@@ -42,7 +42,7 @@ class OpenBook extends PureComponent {
     clearActiveBooktracks: func
   }
 
-  componentWillMount () {
+  componentDidMount () {
     const {
       id,
       setActiveBook,
