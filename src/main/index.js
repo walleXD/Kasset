@@ -117,7 +117,6 @@ app.on('ready', async () => {
 })
 
 /*
-TODO: Add track view for books
 TODO: Add track playback
 TODO: Add playback progress tracking
 TODO: Add better error handling for unsupported files

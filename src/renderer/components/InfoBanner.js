@@ -9,8 +9,8 @@ const InfoBanner = ({bookName, author, ...restOfProps}) =>
     </Box>
     <Flex w='50%' column align='center' justify='center'>
       <Box w='100%' pl={4}>
-        <Heading>{bookName || 'Book Name'}</Heading>
-        <Text bold>{author[0] || 'Author Name'}</Text>
+        <Heading>{bookName}</Heading>
+        <Text bold>{author[0]}</Text>
         <Text>2012</Text>
       </Box>
     </Flex>
